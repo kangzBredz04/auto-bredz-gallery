@@ -1,0 +1,10 @@
+@import url("https://fonts.googleapis.com/css2?family=Courgette&family=Crimson+Text&family=Teko:wght@600&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Teko", sans-serif;
+  background-color: #f1f6f9;
+}

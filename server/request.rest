@@ -1,0 +1,50 @@
+# GET DATA USER
+GET http://localhost:3000/auth/
+
+# CREATE A CARS
+###
+POST http://localhost:3000/cars/new-car
+Content-Type: application/json
+
+{
+    "brand": "Honda",
+    "model": "Accord",
+    "year": 2023,
+    "price": 24500,
+    "transmission": "CVT",
+    "fuel": "Gasoline",
+    "machine": "2.0 liter 4-silinder Atkinson",
+    "seat": 5,
+    "warranty": "5 years or 60,000 miles",
+    "image_link_1": "https://asset.honda-indonesia.com/media-library/de82a3b8-6f97-4f04-bad4-f38d0e746c45/bannerfr__1642346928749.jpg",
+    "image_link_2": "https://asset.honda-indonesia.com/colors/N2yI3FHjY0SIQhlj8rR56g1UyGmVuwIFd2obuIjy.png",
+    "image_link_3": "https://asset.honda-indonesia.com/colors/3JbaWCkXImYAmLh43cgsDekzKQn8EjWkDAffAAdq.png"
+}
+
+# GET ALL DATA CARS
+###
+GET http://localhost:3000/cars/get-cars
+
+# UPDATE DATA CAR BY ID
+###
+PUT http://localhost:3000/cars/update-car/1
+Content-Type: application/json
+
+{
+    "brand": "Honda",
+    "model": "CR-V",
+    "year": 2023,
+    "price": 24000,
+    "transmission": "e-CVT",
+    "fuel": "Gasoline",
+    "machine": "2.0L HEV (Hybrid Electric Vehicle)",
+    "seat": 5,
+    "warranty": "5 years or 60,000 miles",
+    "image_link_1": "https://asset.honda-indonesia.com/media-library/2a96976b-c760-46a3-90ab-87528662014d/Oio6EIriWt3kutcxopE30yrNfdhaNEVOdBofwo4I.jpg",
+    "image_link_2": "https://asset.honda-indonesia.com/colors/STNoj8HfAo0mdV5dNNT9xrBbjThVrp4PBVl6IeUd.png",
+    "image_link_3": "https://asset.honda-indonesia.com/colors/zwQ0QU9yUvvlfHvhe7JHyF7Gj5qTSJ81wcodK5nM.png"
+}
+
+# DELETE CAR BY ID
+###
+DELETE  http://localhost:3000/cars/delete-car/1

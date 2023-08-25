@@ -1,0 +1,110 @@
+app.post("/login", async (req, res) => {
+  // Get data email dari database
+  const data = await client.query(
+    `SELECT * FROM users WHERE email = '${req.body.email}'`
+  );
+
+  if (data.rowCount > 0) {
+    if (
+      await bcrypt.compare(req.body.password.toString(), data.rows[0].password)
+    ) {
+      const token = jwt.sign(data.rows[0], process.env.JWT_SECRET_KEY);
+      // console.log(token);
+      res.cookie("token", token, {
+        httpOnly: true,
+        secure: true,
+      });
+      res.status(200);
+      res.send("Login Berhasil");
+    } else {
+      res.status(401);
+      res.send("Password Salah");
+    }
+    // bcrypt.compare(
+    //   req.body.password.toString(),
+    //   data[0].password,
+    //   (err, response) => {
+    //     if (response) return res.json({ Status: "Success" });
+    //     else return res.json({ Error: "Password Tidak Sama" });
+    //   }
+    // );
+  } else {
+    return res.json({ Error: "Email Tidak Ditemukan" });
+  }
+});
+
+
+// app.post("/login", async (req, res) => {
+//   // Get data email dari database
+//   const checkLogin = await client.query(
+//     `SELECT * FROM users WHERE email = '${req.body.email}'`
+//   );
+
+//   if (checkLogin.rowCount > 0) {
+//     if (await bcrypt.compare(req.body.password, checkLogin.rows[0].password)) {
+//       const token = jwt.sign(checkLogin.rows[0], process.env.JWT_SECRET_KEY);
+//       // console.log(token);
+//       res.cookie("token", token, {
+//         httpOnly: true,
+//         secure: true,
+//       });
+//       res.status(200);
+//       res.send("Login Berhasil");
+//     } else {
+//       res.status(401);
+//       res.send("Password Salah");
+//     }
+//   } else {
+//     console.log("Email Salah");
+//     res.status(401);
+//     res.send("Email salah");
+//   }
+// });
+
+
+DI DALAM LOGIN
+    // bcrypt.compare(
+    //   req.body.password.toString(),
+    //   data[0].password,
+    //   (err, response) => {
+    //     if (response) return res.json({ Status: "Success" });
+    //     else return res.json({ Error: "Password Tidak Sama" });
+    //   }
+    // );
+
+    DI DALAM LOGIN
+        // fetch("http://localhost:3000/login", {
+    //   method: "POST",
+    //   credentials: "include",
+    //   headers: {
+    //     "Content-type": "application/json",
+    //   },
+    //   body: JSON.stringify(login),
+    // }).then(async (res) => {
+    //   if (res.ok) {
+    //     alert(await res.text());
+    //     navigate("/home");
+    //   } else {
+    //     alert(await res.text());
+    //     location.reload();
+    //   }
+    // });
+
+
+    // ADMIN PAGE
+      // useEffect(() => {
+  //   axios.get("http://localhost:3000/cars/get-cars").then((res) => {
+  //     console.log(res.data);
+  //     setCars(res.data);
+  //     console.log(cars);
+  //     console.log(cars.id_cars);
+  //   });
+  // }, []);
+
+  // useEffect(() => {
+  //   fetch("http://localhost:3000/cars/get-cars").then((cars) =>
+  //     setCars(cars.data)
+  //   );
+  // }, []);
+
+  // console.log(cars[0].brand);
