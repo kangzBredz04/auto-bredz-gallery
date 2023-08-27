@@ -1,12 +1,19 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BsInfoCircleFill } from "react-icons/bs";
 import { IoLogoModelS } from "react-icons/io";
 import { MdFavorite, MdAccountCircle } from "react-icons/md";
 import { TbLogout } from "react-icons/tb";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { AiOutlineClose } from "react-icons/ai";
+import { api } from "../utils";
+import { useState } from "react";
 
 function Navbar({ scrollRef }) {
+  const [open, setOpen] = useState(false);
+  const [openAccount, setOpenAccount] = useState(false);
+  const [dataLogin, setDataLogin] = useState({});
+  const navigate = useNavigate();
+
   return (
     <nav
       className="flex md:flex-row flex-col items-center p-4 text-[#212A3E] bg-[#9BA4B5]"
@@ -35,11 +42,41 @@ function Navbar({ scrollRef }) {
           <MdFavorite />
           Favorit
         </Link>
-        <Link className="flex gap-2 items-center text-xl">
+        <Link
+          className="flex gap-2 items-center text-xl"
+          onClick={() => {
+            api("/auth/get-data-login").then((d) => {
+              setDataLogin(d.data);
+            });
+            setOpenAccount(!openAccount);
+          }}
+        >
           <MdAccountCircle />
           Acoount
         </Link>
-        <Link className="flex gap-2 items-center text-xl bg-red-600 p-2 rounded-lg text-white w-1/6">
+        <div
+          className={`absolute top-20 right-56 ${
+            openAccount ? "block" : "hidden"
+          }  text-white bg-[#394867] w-48 rounded-xl px-4 py-2`}
+        >
+          <h1 className="text-3xl text-center">Akun</h1>
+          <h1>Name : {dataLogin.name}</h1>
+          <h1>Email : {dataLogin.email}</h1>
+        </div>
+        <Link
+          className="flex gap-2 items-center text-xl bg-red-600 p-2 rounded-lg text-white w-1/6"
+          onClick={async () => {
+            await fetch("http://localhost:3000/auth/logout", {
+              method: "DELETE",
+              credentials: "include",
+            }).then(async (res) => {
+              if (res.ok) {
+                alert(await res.text());
+                navigate("/");
+              }
+            });
+          }}
+        >
           <TbLogout />
           Logout
         </Link>

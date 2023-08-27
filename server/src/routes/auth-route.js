@@ -9,8 +9,8 @@ import { verifyUser } from "../middleware/auth-middleware.js";
 
 const router = express.Router();
 
-router.get("/logout", logout);
-router.get("/", getDataLogin, verifyUser);
+router.delete("/logout", logout);
+router.get("/get-data-login", verifyUser, getDataLogin);
 router.post("/login", login);
 router.post("/register", register);
 

@@ -1,6 +1,9 @@
 import bcrypt from "bcrypt";
 import { client } from "../config/database.js";
 import jwt from "jsonwebtoken";
+import Cookies from "cookies";
+
+const cookies = new Cookies();
 
 export const register = async (req, res) => {
   const salt = await bcrypt.genSalt();
@@ -12,24 +15,22 @@ export const register = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-  console.log(req.body);
   // Get data email dari database
   const data = await client.query(
     `SELECT * FROM users WHERE email = '${req.body.email}'`
   );
-  console.log(data);
 
   if (data.rowCount > 0) {
     console.log(await bcrypt.compare(req.body.password, data.rows[0].password));
     if (await bcrypt.compare(req.body.password, data.rows[0].password)) {
       const token = jwt.sign(data.rows[0], process.env.JWT_SECRET_KEY);
-      // console.log(token);
       res.cookie("token", token, {
         httpOnly: true,
         secure: true,
       });
+      // res.send("Cookies Tersimpan");
       res.status(200);
-      res.send("Login Berhasil");
+      res.json({ Status: "Login Berhasil" });
     } else {
       res.status(401);
       res.send("Password Salah");
@@ -42,13 +43,17 @@ export const login = async (req, res) => {
 
 export const getDataLogin = async (req, res) => {
   return await res.json({
-    Status: "Success",
-    name: req.name,
-    email: req.email,
+    Status: "Berhasil",
+    data: {
+      name: req.name,
+      email: req.email,
+    },
   });
 };
 
-export const logout = async (req, res) => {
-  await res.clearCookie("token");
-  return res.json({ Status: "Success" });
+export const logout = (_req, res) => {
+  res.setHeader("Cache-Control", "no-store");
+  res.clearCookie("token");
+  // res.json({ Status: "Berhasil Logout" });
+  res.send("logout berhasil");
 };

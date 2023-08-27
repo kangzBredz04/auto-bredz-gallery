@@ -282,3 +282,18 @@ DI DALAM LOGIN
   //     img3: "https://asset.honda-indonesia.com/colors/zwQ0QU9yUvvlfHvhe7JHyF7Gj5qTSJ81wcodK5nM.png",
   //   },
   // ];
+
+
+  // HOME
+        {/* {loginCheck ? (
+        <div>
+          <h1>Kamu Masuk Sebagai --- {name}</h1>
+          <button onClick={handleDelete}>Logout</button>
+        </div>
+      ) : (
+        <div>
+          <h1>{message}</h1>
+          <h1>Please login first</h1>
+          <button onClick={handleDelete}>Logout</button>
+        </div>
+      )} */}

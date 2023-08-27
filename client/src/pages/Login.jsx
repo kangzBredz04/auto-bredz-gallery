@@ -30,17 +30,30 @@ function Login() {
   // Event saat enter atau menekan tombol regsiter
   function handleSubmit(e) {
     e.preventDefault();
-    axios
-      .post("http://localhost:3000/auth/login", login)
-      .then((res) => {
-        if (res.statusText === "OK") {
-          alert(res.statusText);
-          navigate("/home");
-        } else {
-          alert("Error");
-        }
-      })
-      .then((err) => console.log(err));
+    // axios
+    //   .post("http://localhost:3000/auth/login", login)
+    //   .then((res) => {
+    //     if (res.statusText === "OK") {
+    //       alert(res.statusText);
+    //       navigate("/home");
+    //     } else {
+    //       alert("Error");
+    //     }
+    //   })
+    //   .then((err) => console.log(err));
+    fetch("http://localhost:3000/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(login),
+      credentials: "include",
+    }).then((res) => {
+      if (res.ok) {
+        alert("OK");
+        navigate("/home");
+      }
+    });
   }
   return (
     <div className="py-24">

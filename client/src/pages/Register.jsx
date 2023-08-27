@@ -27,8 +27,6 @@ function Register() {
           e.preventDefault();
           const message = await api("/auth/register", "POST", regist);
           setRegist({});
-          // const planets = await api("/planets");
-          // setRegist(planets);
           alert(message);
         }}
         className="p-2 border-2 bg-[#F1F6F9] border-black rounded-lg m-auto flex flex-col gap-5 w-72 shadow-2xl shadow-black h-96"
