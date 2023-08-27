@@ -13,11 +13,10 @@ import CommentsList from "./pages/CommentsList";
 
 const router = createBrowserRouter([
   {
-    path: "/",
     element: <App />,
     children: [
       {
-        path: "/login",
+        path: "/",
         element: <Login />,
       },
       {
@@ -27,10 +26,6 @@ const router = createBrowserRouter([
       {
         path: "/home",
         element: <Home />,
-      },
-      {
-        path: "/register",
-        element: <Register />,
       },
       {
         path: "/adminPage",

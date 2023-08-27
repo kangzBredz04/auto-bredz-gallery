@@ -2,40 +2,18 @@ import SideNav from "../components/SideNav";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
+import { api } from "../utils";
 
 function UsersList() {
-  const users = [
-    {
-      id: 1,
-      name: "Wahyu",
-      email: "wabredz123@gmail.com",
-      password: "123434",
-    },
-    {
-      id: 2,
-      name: "Wahyu",
-      email: "wabredz123@gmail.com",
-      password: "123434",
-    },
-    {
-      id: 3,
-      name: "Wahyu",
-      email: "wabredz123@gmail.com",
-      password: "123434",
-    },
-    {
-      id: 4,
-      name: "Wahyu",
-      email: "wabredz123@gmail.com",
-      password: "123434",
-    },
-    {
-      id: 5,
-      name: "Wahyu",
-      email: "wabredz123@gmail.com",
-      password: "123434",
-    },
-  ];
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    api("/user/get-all-users").then((user) => {
+      setUsers(user);
+      console.log(users);
+    });
+  }, []);
+
   return (
     <div className="flex gap-4 ">
       <div className="w-1/5">
@@ -44,7 +22,7 @@ function UsersList() {
       <div className="w-full">
         <div className="bg-[#9BA4B5] p-10 shadow-xl rounded m-10 ">
           <h1 className="text-3xl font-semibold mb-4 ">Data User</h1>
-          <table className="p-10 my-4 font-content w-full">
+          <table className="p-10 my-4 w-full">
             <thead>
               <tr className="bg-[#9BA4B5] border-b text-center ">
                 <th className="p-2">No</th>
@@ -55,12 +33,12 @@ function UsersList() {
               </tr>
             </thead>
             <tbody>
-              {users.map((user) => (
+              {users.map((user, id) => (
                 <tr
-                  key={user.id}
+                  key={id + 1}
                   className="border-b hover:bg-gray-200 text-center"
                 >
-                  <td className="p-3">{user.id}</td>
+                  <td className="p-3">{id + 1}</td>
                   <td className="p-3">{user.name}</td>
                   <td className="p-3">{user.email}</td>
                   <td className="p-3">

@@ -2,115 +2,21 @@ import SideNav from "../components/SideNav";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
+import { api } from "../utils";
 
 function CarsList() {
-  //   const [cars, setCars] = useState([]);
+  const [cars, setCars] = useState([]);
 
-  //   useEffect(() => {
-  //     axios.get("http://localhost:3000/cars/get-cars").then((res) => {
-  //       console.log(res);
-  //       setCars(res);
-  //       console.log(cars);
-  //     });
-  //   }, []);
-
-  const cars = [
-    {
-      id: 1,
-      brand: "Toyota",
-      model: "Corolla",
-      year: 2022,
-      price: 25000,
-      transmission: "CVT",
-      fuel: "Gasoline",
-      machine: "2.0 liter 4-silinder Atkinson",
-      seat: 5,
-      warranty: "5 years or 60,000 miles",
-      img1: "https://asset.honda-indonesia.com/media-library/de82a3b8-6f97-4f04-bad4-f38d0e746c45/bannerfr__1642346928749.jpg",
-      img2: "https://asset.honda-indonesia.com/colors/N2yI3FHjY0SIQhlj8rR56g1UyGmVuwIFd2obuIjy.png",
-      img3: "https://asset.honda-indonesia.com/colors/zwQ0QU9yUvvlfHvhe7JHyF7Gj5qTSJ81wcodK5nM.png",
-    },
-    {
-      id: 2,
-      brand: "Honda",
-      model: "Civic",
-      year: 2023,
-      price: 23500,
-      transmission: "CVT",
-      fuel: "Gasoline",
-      machine: "2.0 liter 4-silinder Atkinson",
-      seat: 5,
-      warranty: "5 years or 60,000 miles",
-      img1: "https://asset.honda-indonesia.com/media-library/de82a3b8-6f97-4f04-bad4-f38d0e746c45/bannerfr__1642346928749.jpg",
-      img2: "https://asset.honda-indonesia.com/colors/N2yI3FHjY0SIQhlj8rR56g1UyGmVuwIFd2obuIjy.png",
-      img3: "https://asset.honda-indonesia.com/colors/zwQ0QU9yUvvlfHvhe7JHyF7Gj5qTSJ81wcodK5nM.png",
-    },
-    {
-      id: 3,
-      brand: "Ford",
-      model: "Mustang",
-      year: 2022,
-      price: 42000,
-      transmission: "CVT",
-      fuel: "Gasoline",
-      machine: "2.0 liter 4-silinder Atkinson",
-      seat: 5,
-      warranty: "5 years or 60,000 miles",
-      img1: "https://asset.honda-indonesia.com/media-library/de82a3b8-6f97-4f04-bad4-f38d0e746c45/bannerfr__1642346928749.jpg",
-      img2: "https://asset.honda-indonesia.com/colors/N2yI3FHjY0SIQhlj8rR56g1UyGmVuwIFd2obuIjy.png",
-      img3: "https://asset.honda-indonesia.com/colors/zwQ0QU9yUvvlfHvhe7JHyF7Gj5qTSJ81wcodK5nM.png",
-    },
-    {
-      id: 4,
-      brand: "Toyota",
-      model: "Corolla",
-      year: 2022,
-      price: 25000,
-      transmission: "CVT",
-      fuel: "Gasoline",
-      machine: "2.0 liter 4-silinder Atkinson",
-      seat: 5,
-      warranty: "5 years or 60,000 miles",
-      img1: "https://asset.honda-indonesia.com/media-library/de82a3b8-6f97-4f04-bad4-f38d0e746c45/bannerfr__1642346928749.jpg",
-      img2: "https://asset.honda-indonesia.com/colors/N2yI3FHjY0SIQhlj8rR56g1UyGmVuwIFd2obuIjy.png",
-      img3: "https://asset.honda-indonesia.com/colors/zwQ0QU9yUvvlfHvhe7JHyF7Gj5qTSJ81wcodK5nM.png",
-    },
-    {
-      id: 5,
-      brand: "Honda",
-      model: "Civic",
-      year: 2023,
-      price: 23500,
-      transmission: "CVT",
-      fuel: "Gasoline",
-      machine: "2.0 liter 4-silinder Atkinson",
-      seat: 5,
-      warranty: "5 years or 60,000 miles",
-      img1: "https://asset.honda-indonesia.com/media-library/de82a3b8-6f97-4f04-bad4-f38d0e746c45/bannerfr__1642346928749.jpg",
-      img2: "https://asset.honda-indonesia.com/colors/N2yI3FHjY0SIQhlj8rR56g1UyGmVuwIFd2obuIjy.png",
-      img3: "https://asset.honda-indonesia.com/colors/zwQ0QU9yUvvlfHvhe7JHyF7Gj5qTSJ81wcodK5nM.png",
-    },
-    {
-      id: 6,
-      brand: "Ford",
-      model: "Mustang",
-      year: 2022,
-      price: 42000,
-      transmission: "CVT",
-      fuel: "Gasoline",
-      machine: "2.0 liter 4-silinder Atkinson",
-      seat: 5,
-      warranty: "5 years or 60,000 miles",
-      img1: "https://asset.honda-indonesia.com/media-library/de82a3b8-6f97-4f04-bad4-f38d0e746c45/bannerfr__1642346928749.jpg",
-      img2: "https://asset.honda-indonesia.com/colors/N2yI3FHjY0SIQhlj8rR56g1UyGmVuwIFd2obuIjy.png",
-      img3: "https://asset.honda-indonesia.com/colors/zwQ0QU9yUvvlfHvhe7JHyF7Gj5qTSJ81wcodK5nM.png",
-    },
-  ];
+  useEffect(() => {
+    api("/cars/get-cars").then((cars) => {
+      setCars(cars);
+    });
+  }, []);
 
   const [editProduct, setEditProduct] = useState();
 
   return (
-    <div className="flex gap-4 ">
+    <div className="flex">
       <div className="w-full">
         <SideNav />
       </div>
@@ -142,16 +48,16 @@ function CarsList() {
               </tr>
             </thead>
             <tbody>
-              {cars.map((car) => (
+              {cars.map((car, id) => (
                 <tr
-                  key={car.id}
+                  key={id + 1}
                   className="border-b hover:bg-gray-200 text-center"
                 >
-                  <td className="p-3">{car.id}</td>
+                  <td className="p-3">{id + 1}</td>
                   <td className="p-3">{car.brand}</td>
                   <td className="p-3">{car.model}</td>
                   <td className="p-3">{car.year}</td>
-                  <td className="p-3">${car.price.toFixed(2)}</td>
+                  <td className="p-3">${car.price}</td>
                   <td className="p-3">{car.transmission}</td>
                   <td className="p-3">{car.fuel}</td>
                   <td className="p-3">{car.machine}</td>

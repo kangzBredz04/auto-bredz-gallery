@@ -12,6 +12,7 @@ export const register = async (req, res) => {
 };
 
 export const login = async (req, res) => {
+  console.log(req.body);
   // Get data email dari database
   const data = await client.query(
     `SELECT * FROM users WHERE email = '${req.body.email}'`
@@ -19,7 +20,8 @@ export const login = async (req, res) => {
   console.log(data);
 
   if (data.rowCount > 0) {
-    if (bcrypt.compare(req.body.password.toString(), data.rows[0].password)) {
+    console.log(await bcrypt.compare(req.body.password, data.rows[0].password));
+    if (await bcrypt.compare(req.body.password, data.rows[0].password)) {
       const token = jwt.sign(data.rows[0], process.env.JWT_SECRET_KEY);
       // console.log(token);
       res.cookie("token", token, {
@@ -39,7 +41,11 @@ export const login = async (req, res) => {
 };
 
 export const getDataLogin = async (req, res) => {
-  return await res.json({ Status: "Success", name: req.name });
+  return await res.json({
+    Status: "Success",
+    name: req.name,
+    email: req.email,
+  });
 };
 
 export const logout = async (req, res) => {

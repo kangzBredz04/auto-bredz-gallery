@@ -5,7 +5,6 @@ export default {
     fontFamily: {
       primary: "Poppins",
       title: "Courgette",
-      content: "Crimson Text",
     },
     extend: {
       colors: {

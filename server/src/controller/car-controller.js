@@ -39,3 +39,25 @@ export const deleteCars = async (req, res) => {
     res.status(500).json({ msg: error.message });
   }
 };
+
+export const createComment = async (req, res) => {
+  try {
+    await client.query(
+      `INSERT INTO comments (car_id, user_id, comment) VALUES ('${req.body.car_id}', '${req.body.user_id}', '${req.body.comment}')`
+    );
+    res.status(200).json({ msg: "Komentar Berhasil Terkirim" });
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+  }
+};
+
+export const getCommentCars = async (_req, res) => {
+  try {
+    const datas = await client.query(
+      "SELECT u.*, cr.*, c.* FROM comments c JOIN users u ON c.user_id = u.id JOIN cars cr ON c.car_id = cr.id_cars"
+    );
+    res.json(datas.rows);
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+  }
+};

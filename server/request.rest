@@ -1,6 +1,21 @@
 # GET DATA USER
 GET http://localhost:3000/auth/
 
+###
+# CREATE A USER
+POST http://localhost:3000/user/new-user
+Content-Type: application/json
+
+{
+    "name": "Wabredz",
+    "email": "wabredz@gmail.com",
+    "password": "wabredz1234",
+}
+
+###
+# GET ALL DATA USERS
+GET http://localhost:3000/user/get-all-users
+
 # CREATE A CARS
 ###
 POST http://localhost:3000/cars/new-car

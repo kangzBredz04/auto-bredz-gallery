@@ -9,6 +9,7 @@ export const verifyUser = (req, res, next) => {
       if (err) {
         return res.json({ Error: "Token is not okey" });
       } else {
+        req.email = decoded.email;
         req.name = decoded.name;
         next();
       }
