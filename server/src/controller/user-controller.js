@@ -18,7 +18,14 @@ export const getDataUser = async (_req, res) => {
   } catch (error) {
     res.status(500).json({ msg: error.message });
   }
+};
 
-  //   const users = await client.query("SELECT * FROM users");
-  //   res.json(users);
+export const deleteUser = async (req, res) => {
+  try {
+    await client.query(`DELETE FROM users WHERE id = ${req.params.id}`);
+    res.send("User Berhasil Dihapus");
+  } catch (error) {
+    res.status(500);
+    res.send(error);
+  }
 };

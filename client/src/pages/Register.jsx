@@ -1,7 +1,4 @@
-import React, { useState } from "react";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import axios from "axios";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { api } from "../utils";
 
@@ -20,6 +17,8 @@ function Register() {
     });
   }
 
+  const navigate = useNavigate();
+
   return (
     <div className="py-24">
       <form
@@ -27,6 +26,7 @@ function Register() {
           e.preventDefault();
           const message = await api("/auth/register", "POST", regist);
           setRegist({});
+          navigate("/");
           alert(message);
         }}
         className="p-2 border-2 bg-[#F1F6F9] border-black rounded-lg m-auto flex flex-col gap-5 w-72 shadow-2xl shadow-black h-96"
@@ -37,7 +37,7 @@ function Register() {
             type="text"
             name="name"
             required
-            value={regist.email}
+            value={regist.name}
             onChange={handleChange}
             placeholder="Name*"
             className="w-full p-2 border-2 border-gray-400 rounded-md "
@@ -64,7 +64,7 @@ function Register() {
             type="submit"
             className="bg-blue-500 text-white  rounded-md p-2"
           >
-            Login
+            Sign Up
           </button>
           <h3 className="text-center">
             Already have an account?{" "}

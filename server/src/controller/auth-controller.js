@@ -1,12 +1,10 @@
 import bcrypt from "bcrypt";
 import { client } from "../config/database.js";
 import jwt from "jsonwebtoken";
-import Cookies from "cookies";
-
-const cookies = new Cookies();
 
 export const register = async (req, res) => {
   const salt = await bcrypt.genSalt();
+  console.log(salt);
   const hash = await bcrypt.hash(req.body.password, salt);
   await client.query(
     `INSERT INTO users (name, email, password) VALUES ('${req.body.name}', '${req.body.email}', '${hash}')`
@@ -28,7 +26,6 @@ export const login = async (req, res) => {
         httpOnly: true,
         secure: true,
       });
-      // res.send("Cookies Tersimpan");
       res.status(200);
       res.json({ Status: "Login Berhasil" });
     } else {
@@ -51,9 +48,8 @@ export const getDataLogin = async (req, res) => {
   });
 };
 
-export const logout = (_req, res) => {
-  res.setHeader("Cache-Control", "no-store");
-  res.clearCookie("token");
-  // res.json({ Status: "Berhasil Logout" });
-  res.send("logout berhasil");
+export const logout = async (_req, res) => {
+  await res.setHeader("Cache-Control", "no-store");
+  await res.clearCookie("token");
+  res.send("Logout Berhasil");
 };

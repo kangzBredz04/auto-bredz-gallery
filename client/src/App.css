@@ -7,4 +7,5 @@
 body {
   font-family: "Teko", sans-serif;
   background-color: #f1f6f9;
+  /* overflow: hidden; */
 }

@@ -14,16 +14,6 @@ import {
 } from "react-icons/md";
 
 function Home() {
-  // const navigate = useNavigate();
-  // const handleDelete = () => {
-  //   axios
-  //     .get("http://localhost:3000/auth/logout")
-  //     .then(() => {
-  //       navigate("/");
-  //     })
-  //     .catch((err) => console.log(err));
-  // };
-
   const images = [
     "/slider1.jpg",
     "slider2.jpg",
@@ -67,11 +57,11 @@ function Home() {
         <About />
         <div className="flex flex-col p-4">
           <h1 className="text-5xl">PILIH MOBIL UNTUK ANDA!</h1>
-          <div className="flex  flex-row gap-4">
+          <div className="grid grid-cols-3 gap-3">
             {cars.map((car, id) => (
               <div
                 key={id}
-                className="w-1/3 border-2 border-black bg-[#D8D9DA] p-4 flex flex-col gap-5 hover:cursor-pointer rounded-lg"
+                className="w-full border-2 border-black bg-[#D8D9DA] p-4 flex flex-col gap-5 hover:cursor-pointer rounded-lg"
               >
                 <div className="flex flex-col justify-between h-96 border-2 bg-white border-black  p-3 rounded-lg">
                   <img src={car.image_link_2} alt="" />

@@ -65,14 +65,15 @@ function Navbar({ scrollRef }) {
         </div>
         <Link
           className="flex gap-2 items-center text-xl bg-red-600 p-2 rounded-lg text-white w-1/6"
-          onClick={async () => {
-            await fetch("http://localhost:3000/auth/logout", {
-              method: "DELETE",
+          onClick={() => {
+            fetch("http://localhost:3000/auth/logout", {
+              method: "GET",
               credentials: "include",
             }).then(async (res) => {
               if (res.ok) {
                 alert(await res.text());
                 navigate("/");
+                location.reload();
               }
             });
           }}

@@ -3,7 +3,7 @@ GET http://localhost:3000/auth/
 
 ###
 # CREATE A USER
-POST http://localhost:3000/user/new-user
+POST http://localhost:3000/auth/register
 Content-Type: application/json
 
 {
