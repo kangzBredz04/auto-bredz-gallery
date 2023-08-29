@@ -1,5 +1,4 @@
 import SideNav from "../components/SideNav";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import { api } from "../utils";
@@ -89,7 +88,31 @@ function CarsList() {
         </div>
       </div>
       {editProduct && (
-        <form className="absolute bg-white bg-gradient-to-r from-cyan-500 to-blue-500 flex flex-col gap-4 p-8 rounded-3xl shadow-lg shadow-indigo-500/50 top-[5%] left-[35%]  min-w-[512px]">
+        <form
+          className="absolute bg-white bg-gradient-to-r from-cyan-500 to-blue-500 flex flex-col gap-4 p-8 rounded-3xl shadow-lg shadow-indigo-500/50 top-[5%] left-[35%]  min-w-[512px]"
+          onSubmit={async (e) => {
+            e.preventDefault();
+            if (editProduct.id_cars) {
+              // alert(`Masuk Edit ${editProduct.id_cars}`);
+              const message = await api(
+                `/cars/update-car/${editProduct.id_cars}`,
+                "PUT",
+                editProduct
+              );
+              const cars = await api("/cars/get-cars");
+              setCars(cars);
+              setEditProduct(undefined);
+              alert(message);
+            } else {
+              // alert("Masuk Tambah");
+              const message = await api("/cars/new-car", "POST", editProduct);
+              const cars = await api("/cars/get-cars");
+              setCars(cars);
+              setEditProduct({});
+              alert(message);
+            }
+          }}
+        >
           <h1 className="text-4xl">{editProduct.id ? "Edit" : "Add"} Mobil</h1>
           <div className="flex gap-4">
             <label className="flex flex-col gap-1">
@@ -248,6 +271,7 @@ function CarsList() {
             <button
               onClick={() => alert("Data Berhasil Tersimpan")}
               className="bg-green-600 px-4 py-1 rounded-md text-white"
+              type="submit"
             >
               Simpan
             </button>

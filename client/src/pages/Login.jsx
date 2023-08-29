@@ -1,18 +1,7 @@
 import React, { useState } from "react";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 
-// export const ThemeContext = createContext({
-//   theme: null,
-//   setTheme: () => {},
-//   language: null,
-//   setLanguage: () => {},
-// });
-
 function Login() {
-  const [dataLogin, setDataLogin] = useState({});
   const [login, setLogin] = useState({
     email: "",
     password: "",
@@ -30,17 +19,6 @@ function Login() {
   // Event saat enter atau menekan tombol regsiter
   function handleSubmit(e) {
     e.preventDefault();
-    // axios
-    //   .post("http://localhost:3000/auth/login", login)
-    //   .then((res) => {
-    //     if (res.statusText === "OK") {
-    //       alert(res.statusText);
-    //       navigate("/home");
-    //     } else {
-    //       alert("Error");
-    //     }
-    //   })
-    //   .then((err) => console.log(err));
     fetch("http://localhost:3000/auth/login", {
       method: "POST",
       headers: {
@@ -49,9 +27,12 @@ function Login() {
       body: JSON.stringify(login),
       credentials: "include",
     }).then((res) => {
+      console.log(res);
       if (res.ok) {
         alert("OK");
         navigate("/home");
+      } else {
+        alert("Email atau Password Salah !!!");
       }
     });
   }
@@ -73,7 +54,7 @@ function Login() {
             className="w-full p-2 border-2 border-gray-400 rounded-md "
           />
           <input
-            type="text"
+            type="password"
             name="password"
             required
             value={login.password}

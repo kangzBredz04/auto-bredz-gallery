@@ -1,4 +1,5 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-scroll";
 import { BsInfoCircleFill } from "react-icons/bs";
 import { IoLogoModelS } from "react-icons/io";
 import { MdFavorite, MdAccountCircle } from "react-icons/md";
@@ -30,11 +31,19 @@ function Navbar({ scrollRef }) {
           open ? "top-12" : "top-[-490px]"
         }`}
       >
-        <Link className="flex gap-2 items-center text-xl  ">
+        <Link
+          className="flex gap-2 items-center text-xl"
+          to="about"
+          smooth={true}
+        >
           <BsInfoCircleFill />
           About
         </Link>
-        <Link className="flex gap-2 items-center text-xl">
+        <Link
+          className="flex gap-2 items-center text-xl"
+          to="models"
+          smooth={true}
+        >
           <IoLogoModelS />
           Models
         </Link>

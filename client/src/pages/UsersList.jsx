@@ -46,7 +46,25 @@ function UsersList() {
                   </td>
                   <td className="p-3">
                     {/* <Button variant="contained">Edit</Button> */}
-                    <Button variant="contained" color="error">
+                    <Button
+                      variant="contained"
+                      color="error"
+                      onClick={async () => {
+                        if (
+                          confirm(
+                            `Apakah Anda yakin ingin menghapus ${user.name}?`
+                          )
+                        ) {
+                          const message = await api(
+                            `/user/delete-user/${user.id}`,
+                            "DELETE"
+                          );
+                          const users = await api("/user/get-all-users");
+                          setUsers(users);
+                          alert(message);
+                        }
+                      }}
+                    >
                       Delete
                     </Button>
                   </td>

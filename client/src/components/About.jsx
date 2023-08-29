@@ -1,7 +1,7 @@
 function About() {
   return (
     <>
-      <div className="flex flex-row p-4">
+      <div className="flex flex-row p-4" id="about">
         <div className="w-3/4 bg-[#212A3E] h-72 p-5 text-white rounded-xl flex flex-col gap-2">
           <h1 className="text-2xl">Welcome to ...</h1>
           <h1 className="text-5xl">MajesticCars</h1>

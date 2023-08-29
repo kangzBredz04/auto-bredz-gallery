@@ -1,28 +1,89 @@
-function CardCars() {
+import { useEffect, useState } from "react";
+import {
+  MdOutlineBookmarkBorder,
+  MdOutlineBookmark,
+  MdOutlineInfo,
+  MdSend,
+} from "react-icons/md";
+import { api } from "../utils";
+import { Cookies } from "react-cookie";
+
+const cok = new Cookies();
+
+function CardCars({ i, id, image, brand, model, year, price }) {
+  const [like, setLike] = useState(false);
+
+  const [comments, setComments] = useState([]);
+
+  const [newComment, setNewComment] = useState("");
+
+  const [dataComment, setDataComment] = useState({});
+
+  const [allUser, setAllUser] = useState([]);
+  const [dataLogin, setDataLogin] = useState({});
+  const [idUser, setIdUser] = useState(0);
+
+  useEffect(() => {
+    api("/auth/get-data-login").then((d) => {
+      setDataLogin(d.data);
+    });
+  }, []);
+  console.log(dataLogin);
+
+  useEffect(() => {
+    api("/comment/get-comment-cars").then((comment) => {
+      setComments(comment);
+    });
+  }, []);
+
+  useEffect(() => {
+    api("/user/get-all-users").then((u) => {
+      setAllUser(u);
+    });
+  }, []);
+  console.log(allUser);
+
+  useEffect(() => {
+    allUser.map((all, id) => {
+      if (all.email === dataLogin.email) {
+        setIdUser(id + 1);
+      }
+    });
+  }, []);
+  console.log(idUser);
+
   return (
     <div
-      key={id}
-      className="w-1/3 border-2 border-black bg-[#D8D9DA] p-4 flex flex-col gap-5 hover:cursor-pointer rounded-lg"
+      key={i}
+      className="w-full border-2 border-black bg-[#D8D9DA] p-4 flex flex-col gap-5 hover:cursor-pointer rounded-lg"
     >
       <div className="flex flex-col justify-between h-96 border-2 bg-white border-black  p-3 rounded-lg">
-        <img src={car.image_link_2} alt="" />
+        <img src={image} alt="" />
         <div className="flex flex-col gap-3">
           <h1 className="text-center text-2xl">
-            {car.brand} {car.model}
+            {brand} {model}
           </h1>
           <div className="flex justify-evenly text-xl">
             <div onClick={() => setLike(!like)}>
-              {like ? <MdFavorite /> : <MdFavoriteBorder />}
+              {like ? (
+                <MdOutlineBookmark color="blue" />
+              ) : (
+                <MdOutlineBookmarkBorder />
+              )}
             </div>
             <MdOutlineInfo
-              onClick={() => alert(`${car.id_cars} ${car.brand} ${car.model}`)}
+              onClick={() =>
+                alert(
+                  `Car Detail\nBrand : ${brand}\nModel : ${model}\nYear : ${year}\nPrice : $${price}`
+                )
+              }
             />
           </div>
         </div>
       </div>
       <div className="flex flex-col gap-2 bg-white h-1/3 overflow-y-scroll border-2 border-black p-3 rounded-lg">
         {comments.map((c) =>
-          car.id_cars === c.car_id ? (
+          id === c.id_car ? (
             <div className="flex flex-row gap-2">
               <div className="flex justify-between w-24">
                 <p>{c.name}</p>
@@ -39,42 +100,34 @@ function CardCars() {
         <input
           type="text"
           name="comment"
+          placeholder="Tambahkan komentar..."
           className="border-2 border-black rounded-lg p-1 w-5/6"
           onChange={(e) => {
-            setNewComment({
-              ...newComment,
-              [e.target.name]: e.target.value,
-              car_id: 3,
-              user_id: 4,
-            });
+            e.preventDefault();
+            setNewComment(e.target.value);
           }}
         />
         <MdSend
           className="text-4xl"
-          onClick={async (e) => {
+          onClick={async () => {
+            setDataComment({
+              id_car: id,
+              id_user: idUser,
+              comment: newComment,
+            });
             const message = await api(
-              "/cars/post-comment-cars",
+              "/comment/post-comment-cars",
               "POST",
-              newComment
+              dataComment
             );
-            setNewComment({});
+            alert(`${id} ${idUser} ${newComment}`);
+            setDataComment({});
+            setNewComment("");
             alert(message);
-            location.reload();
+            // location.reload();
           }}
         />
       </div>
-      {/* <div className="text-2xl">
-      <h1 className="text-center text-4xl mb-3">Car Detail</h1>
-      <p>Brand : {car.brand}</p>
-      <p>Model : {car.model}</p>
-      <p>Year : {car.year}</p>
-      <p>Price : ${car.price}</p>
-      <p>Transmission : {car.transmission}</p>
-      <p>Fuel : {car.fuel}</p>
-      <p>Machine : {car.machine}</p>
-      <p>Seat : {car.seat}</p>
-      <p>Warranty : {car.warranty}</p>
-    </div> */}
     </div>
   );
 }
