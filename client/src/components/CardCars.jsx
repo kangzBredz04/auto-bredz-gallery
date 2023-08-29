@@ -9,13 +9,9 @@ import { api } from "../utils";
 
 function CardCars({ i, id, image, brand, model, year, price }) {
   const [like, setLike] = useState(false);
-
   const [comments, setComments] = useState([]);
-
   const [newComment, setNewComment] = useState("");
-
   const [dataComment, setDataComment] = useState({});
-
   const [allUser, setAllUser] = useState([]);
   const [dataLogin, setDataLogin] = useState({});
   const [idUser, setIdUser] = useState("");
@@ -25,7 +21,6 @@ function CardCars({ i, id, image, brand, model, year, price }) {
       setDataLogin(d.data);
     });
   }, []);
-  console.log(dataLogin);
 
   useEffect(() => {
     api("/comment/get-comment-cars").then((comment) => {
