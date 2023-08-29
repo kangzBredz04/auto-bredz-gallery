@@ -7,13 +7,22 @@ import { TbLogout } from "react-icons/tb";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { AiOutlineClose } from "react-icons/ai";
 import { api } from "../utils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function Navbar({ scrollRef }) {
   const [open, setOpen] = useState(false);
   const [openAccount, setOpenAccount] = useState(false);
+  const [openFav, setOpenFav] = useState(false);
+  const [dataFav, setDataFav] = useState([]);
   const [dataLogin, setDataLogin] = useState({});
   const navigate = useNavigate();
+
+  useEffect(() => {
+    api("/favorit/get-favorit-cars").then((fav) => {
+      setDataFav(fav);
+    });
+  }, []);
+  console.log(dataFav);
 
   return (
     <nav
@@ -47,10 +56,33 @@ function Navbar({ scrollRef }) {
           <IoLogoModelS />
           Models
         </Link>
-        <Link className="flex gap-2 items-center text-xl">
+        <Link
+          className="flex gap-2 items-center text-xl"
+          onClick={() => {
+            setOpenFav(!openFav);
+          }}
+        >
           <MdFavorite />
           Favorit
         </Link>
+        <div
+          className={`absolute top-20 right-96 ${
+            openFav ? "block" : "hidden"
+          }  text-white bg-[#394867] w-48 rounded-xl px-4 py-2`}
+        >
+          <h1 className="text-3xl text-center">Data Favorit</h1>
+          {dataFav.map((f, i) =>
+            f.email === dataLogin.email ? (
+              <tr className="border-2">
+                <td>
+                  {i + 1} {f.model}
+                </td>
+              </tr>
+            ) : (
+              ""
+            )
+          )}
+        </div>
         <Link
           className="flex gap-2 items-center text-xl"
           onClick={() => {

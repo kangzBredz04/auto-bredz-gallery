@@ -8,7 +8,7 @@ import Footer from "../components/Footer";
 
 function Home() {
   const images = [
-    "/slider1.jpg",
+    "slider1.jpg",
     "slider2.jpg",
     "slider3.jpg",
     "slider4.jpg",
