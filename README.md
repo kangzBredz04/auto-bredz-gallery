@@ -20,6 +20,13 @@ Selamat datang di dunia mobil yang megah dan tak tertandingi. Selamat datang di 
 - Hapus akun MajesticCars
 
 ## DIAGRAM ER
-![Diagram ER](/client/public/ERD-AUTO-BREDZ-GALLERY.drawio.png)
+![Diagram ER](/ERD-AUTO-BREDZ-GALLERY.drawio.png)
+
+## TECH TASK 
+- Frontend : ReactJs, MUI
+- Backend : ExpressJs
+- Caching : -
+- DB : PostgreSQL
+- Devops : Version control (Git & Github)
 
 
