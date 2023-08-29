@@ -1,5 +1,3 @@
-import LearnMore from "./ButtonLearnMore";
-
 function CardList({ length, image, title, bgColor, toLink }) {
   return (
     <div

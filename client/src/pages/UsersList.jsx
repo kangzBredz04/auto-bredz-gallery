@@ -1,5 +1,4 @@
 import SideNav from "../components/SideNav";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import { api } from "../utils";

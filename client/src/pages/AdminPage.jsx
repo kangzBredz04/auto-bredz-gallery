@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import SideNav from "../components/SideNav";
-import axios from "axios";
 import CardList from "../components/CardList";
 import { api } from "../utils";
 

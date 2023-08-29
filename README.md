@@ -20,7 +20,7 @@ Selamat datang di dunia mobil yang megah dan tak tertandingi. Selamat datang di 
 - Hapus akun MajesticCars
 
 ## DIAGRAM ER
-![Diagram ER](/ERD-AUTO-BREDZ-GALLERY.drawio.png)
+![Diagram ER]()
 
 ## TECH TASK 
 - Frontend : ReactJs, MUI

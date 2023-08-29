@@ -6,9 +6,6 @@ import {
   MdSend,
 } from "react-icons/md";
 import { api } from "../utils";
-import { Cookies } from "react-cookie";
-
-const cok = new Cookies();
 
 function CardCars({ i, id, image, brand, model, year, price }) {
   const [like, setLike] = useState(false);
