@@ -18,7 +18,7 @@ function CardCars({ i, id, image, brand, model, year, price }) {
 
   const [allUser, setAllUser] = useState([]);
   const [dataLogin, setDataLogin] = useState({});
-  const [idUser, setIdUser] = useState(0);
+  const [idUser, setIdUser] = useState("");
 
   useEffect(() => {
     api("/auth/get-data-login").then((d) => {
@@ -38,16 +38,14 @@ function CardCars({ i, id, image, brand, model, year, price }) {
       setAllUser(u);
     });
   }, []);
-  console.log(allUser);
 
   useEffect(() => {
     allUser.map((all, id) => {
       if (all.email === dataLogin.email) {
-        setIdUser(id + 1);
+        setIdUser(id);
       }
     });
   }, []);
-  console.log(idUser);
 
   return (
     <div
@@ -112,6 +110,7 @@ function CardCars({ i, id, image, brand, model, year, price }) {
               id_user: idUser,
               comment: newComment,
             });
+            console.log(dataComment);
             const message = await api(
               "/comment/post-comment-cars",
               "POST",
