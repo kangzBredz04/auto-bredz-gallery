@@ -297,3 +297,39 @@ DI DALAM LOGIN
           <button onClick={handleDelete}>Logout</button>
         </div>
       )} */}
+
+
+
+/// COMMENTS LIST
+  // const comments = [
+  //   {
+  //     id: 1,
+  //     userId: 2,
+  //     carId: 3,
+  //     comment: "Great car!",
+  //   },
+  //   {
+  //     id: 2,
+  //     userId: 1,
+  //     carId: 1,
+  //     comment: "Awesome model",
+  //   },
+  //   {
+  //     id: 3,
+  //     userId: 3,
+  //     carId: 2,
+  //     comment: "Love the design",
+  //   },
+  //   {
+  //     id: 4,
+  //     userId: 3,
+  //     carId: 1,
+  //     comment: "Powerful engine",
+  //   },
+  //   {
+  //     id: 5,
+  //     userId: 1,
+  //     carId: 1,
+  //     comment: "Awesome model",
+  //   },
+  // ];

@@ -4,6 +4,7 @@ import About from "../components/About";
 import Slider from "../components/SliderImage";
 import { api } from "../utils";
 import CardCars from "../components/CardCars";
+import Footer from "../components/Footer";
 
 function Home() {
   const images = [
@@ -25,7 +26,7 @@ function Home() {
   console.log(cars);
 
   return (
-    <div>
+    <>
       <header className="sticky top-0 ">
         <Navbar />
       </header>
@@ -43,7 +44,8 @@ function Home() {
           </div>
         </div>
       </main>
-    </div>
+      <Footer />
+    </>
   );
 }
 

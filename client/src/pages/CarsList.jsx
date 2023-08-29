@@ -6,17 +6,17 @@ import { api } from "../utils";
 function CarsList() {
   const [cars, setCars] = useState([]);
 
+  const [editProduct, setEditProduct] = useState(undefined);
+
   useEffect(() => {
     api("/cars/get-cars").then((cars) => {
       setCars(cars);
     });
   }, []);
 
-  const [editProduct, setEditProduct] = useState();
-
   return (
     <div className="flex">
-      <div className="w-full">
+      <div className="w-1/5">
         <SideNav />
       </div>
       <div className="w-full">
@@ -30,7 +30,7 @@ function CarsList() {
           >
             Create
           </Button>
-          <table className="p-10 my-4 font-content">
+          <table className="p-10 my-4 font-content w-full">
             <thead>
               <tr className="bg-[#9BA4B5] border-b text-center ">
                 <th className="p-2">No</th>
@@ -38,11 +38,7 @@ function CarsList() {
                 <th className="p-2">Model</th>
                 <th className="p-2">Year</th>
                 <th className="p-2">Price</th>
-                <th className="p-2">Transmission</th>
-                <th className="p-2">Fuel</th>
-                <th className="p-2">Machine</th>
-                <th className="p-2">Seat</th>
-                <th className="p-2">Warranty</th>
+                <th className="p-2">Image</th>
                 <th className="p-2">Action</th>
               </tr>
             </thead>
@@ -57,25 +53,30 @@ function CarsList() {
                   <td className="p-3">{car.model}</td>
                   <td className="p-3">{car.year}</td>
                   <td className="p-3">${car.price}</td>
-                  <td className="p-3">{car.transmission}</td>
-                  <td className="p-3">{car.fuel}</td>
-                  <td className="p-3">{car.machine}</td>
-                  <td className="p-3">{car.seat}</td>
-                  <td className="p-3">{car.warranty}</td>
-                  <td className="p-3 flex gap-2">
+                  <td className="p-3">
+                    {car.image.replace(car.image, "htttp://...")}
+                  </td>
+                  <td className="p-3 flex justify-around">
                     <Button
                       variant="contained"
-                      onClick={() => setEditProduct(car)}
+                      onClick={() => {
+                        setEditProduct(car);
+                      }}
                     >
                       Edit
                     </Button>
                     <Button
                       variant="contained"
                       color="error"
-                      onClick={() => {
-                        confirm(
-                          `Apakah Anda yakin ingin menghapus mobil ${car.model}?`
+                      onClick={async () => {
+                        const message = await api(
+                          `/cars/delete-car/${car.id}`,
+                          "DELETE"
                         );
+                        const cars = await api("/cars/get-cars");
+                        setCars(cars);
+                        setEditProduct(undefined);
+                        alert(message);
                       }}
                     >
                       Delete
@@ -92,10 +93,10 @@ function CarsList() {
           className="absolute bg-white bg-gradient-to-r from-cyan-500 to-blue-500 flex flex-col gap-4 p-8 rounded-3xl shadow-lg shadow-indigo-500/50 top-[5%] left-[35%]  min-w-[512px]"
           onSubmit={async (e) => {
             e.preventDefault();
-            if (editProduct.id_cars) {
+            if (editProduct.id) {
               // alert(`Masuk Edit ${editProduct.id_cars}`);
               const message = await api(
-                `/cars/update-car/${editProduct.id_cars}`,
+                `/cars/update-car/${editProduct.id}`,
                 "PUT",
                 editProduct
               );
@@ -108,7 +109,7 @@ function CarsList() {
               const message = await api("/cars/new-car", "POST", editProduct);
               const cars = await api("/cars/get-cars");
               setCars(cars);
-              setEditProduct({});
+              setEditProduct(undefined);
               alert(message);
             }
           }}
@@ -163,98 +164,14 @@ function CarsList() {
               />
             </label>
             <label className="flex flex-col gap-1">
-              Transmission
+              Image
               <input
                 type="text"
-                value={editProduct.transmission}
+                value={editProduct.image}
                 onChange={(e) =>
                   setEditProduct({
                     ...editProduct,
-                    transmission: e.target.value,
-                  })
-                }
-                className="p-0 h-9 px-4 text-sm rounded-lg w-36"
-              />
-            </label>
-          </div>
-          <div className="flex gap-4">
-            <label className="flex flex-col gap-1">
-              Fuel
-              <input
-                type="text"
-                value={editProduct.fuel}
-                onChange={(e) =>
-                  setEditProduct({ ...editProduct, fuel: e.target.value })
-                }
-                className="p-0 h-9 px-4 text-sm rounded-lg w-36"
-              />
-            </label>
-            <label className="flex flex-col gap-1">
-              Machine
-              <input
-                type="text"
-                value={editProduct.machine}
-                onChange={(e) =>
-                  setEditProduct({ ...editProduct, machine: e.target.value })
-                }
-                className="p-0 h-9 px-4 text-sm rounded-lg w-56"
-              />
-            </label>
-            <label className="flex flex-col gap-1">
-              Seat
-              <input
-                type="number"
-                value={editProduct.seat}
-                onChange={(e) =>
-                  setEditProduct({ ...editProduct, seat: e.target.value })
-                }
-                className="p-0 h-9 px-4 text-sm rounded-lg w-16"
-              />
-            </label>
-          </div>
-          <label className="flex flex-col gap-1">
-            Warranty
-            <input
-              type="text"
-              value={editProduct.warranty}
-              onChange={(e) =>
-                setEditProduct({ ...editProduct, warranty: e.target.value })
-              }
-              className="p-0 h-9 px-4 text-sm rounded-lg"
-            />
-          </label>
-          <div className="flex gap-4">
-            <label className="flex flex-col gap-1">
-              Image 1
-              <input
-                type="text"
-                value={editProduct.img1}
-                onChange={(e) =>
-                  setEditProduct({ ...editProduct, img1: e.target.value })
-                }
-                className="p-0 h-9 px-4 text-sm rounded-lg w-36"
-              />
-            </label>
-            <label className="flex flex-col gap-1">
-              Image 2
-              <input
-                type="text"
-                value={editProduct.img2}
-                onChange={(e) =>
-                  setEditProduct({ ...editProduct, img2: e.target.value })
-                }
-                className="p-0 h-9 px-4 text-sm rounded-lg w-36"
-              />
-            </label>
-            <label className="flex flex-col gap-1">
-              Image 3
-              <input
-                type="text"
-                value={editProduct.img3}
-                onChange={(e) =>
-                  setEditProduct({
-                    ...editProduct,
-                    img3: e.target.value,
+                    image: e.target.value,
                   })
                 }
                 className="p-0 h-9 px-4 text-sm rounded-lg w-36"

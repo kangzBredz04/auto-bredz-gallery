@@ -7,7 +7,9 @@ function AdminPage() {
   const [cars, setCars] = useState([]);
   const [lengthCars, setLengthCars] = useState(cars.length);
   const [users, setUsers] = useState([]);
-  const [lengthUsers, setLengthUsers] = useState(cars.length);
+  const [lengthUsers, setLengthUsers] = useState(users.length);
+  const [comments, setComments] = useState([]);
+  const [lengthComments, setLengthComments] = useState(comments.length);
 
   useEffect(() => {
     api("/user/get-all-users").then((users) => {
@@ -20,6 +22,13 @@ function AdminPage() {
     api("/cars/get-cars").then((cars) => {
       setCars(cars);
       setLengthCars(cars.length);
+    });
+  }, []);
+
+  useEffect(() => {
+    api("/comment/get-comment-cars").then((comment) => {
+      setComments(comment);
+      setLengthComments(comment.length);
     });
   }, []);
 
@@ -47,7 +56,7 @@ function AdminPage() {
           />
 
           <CardList
-            length={lengthCars}
+            length={lengthComments}
             image="/comment-list.png"
             title="COMMENTS"
             bgColor="bg-[#9DB2BF]"

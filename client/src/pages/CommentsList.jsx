@@ -3,40 +3,17 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import Footer from "../components/Footer";
+import { api } from "../utils";
 
 function CommentsList() {
-  const comments = [
-    {
-      id: 1,
-      userId: 2,
-      carId: 3,
-      comment: "Great car!",
-    },
-    {
-      id: 2,
-      userId: 1,
-      carId: 1,
-      comment: "Awesome model",
-    },
-    {
-      id: 3,
-      userId: 3,
-      carId: 2,
-      comment: "Love the design",
-    },
-    {
-      id: 4,
-      userId: 3,
-      carId: 1,
-      comment: "Powerful engine",
-    },
-    {
-      id: 5,
-      userId: 1,
-      carId: 1,
-      comment: "Awesome model",
-    },
-  ];
+  const [comments, setComments] = useState([]);
+  const [editComment, setEditComment] = useState("");
+  useEffect(() => {
+    api("/comment/get-comment-cars").then((comment) => {
+      setComments(comment);
+    });
+  }, []);
+
   return (
     <div className="flex gap-4">
       <div className="w-1/5">
@@ -56,18 +33,35 @@ function CommentsList() {
               </tr>
             </thead>
             <tbody>
-              {comments.map((com) => (
-                <tr
-                  key={com.id}
-                  className="border-b hover:bg-gray-200 text-center"
-                >
-                  <td className="p-3">{com.id}</td>
-                  <td className="p-3">{com.userId}</td>
-                  <td className="p-3">{com.carId}</td>
+              {comments.map((com, id) => (
+                <tr key={id} className="border-b hover:bg-gray-200 text-center">
+                  <td className="p-3">{id + 1}</td>
+                  <td className="p-3">{com.id_users}</td>
+                  <td className="p-3">{com.id_car}</td>
                   <td className="p-3">{com.comment}</td>
                   <td className="p-3 flex justify-center gap-3">
-                    <Button variant="contained">Edit</Button>
-                    <Button variant="contained" color="error">
+                    <Button
+                      variant="contained"
+                      onClick={() => {
+                        setEditComment(com.comment);
+                      }}
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="error"
+                      onClick={async () => {
+                        const message = await api(
+                          `/comment/delete-comment/${com.id}`,
+                          "DELETE"
+                        );
+                        const comments = await api("/comment/get-comment-cars");
+                        setComments(comments);
+                        setEditComment("");
+                        alert(message);
+                      }}
+                    >
                       Delete
                     </Button>
                   </td>
