@@ -1,16 +1,17 @@
 import SideNav from "../components/SideNav";
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import Footer from "../components/Footer";
 import { api } from "../utils";
 
 function CommentsList() {
   const [comments, setComments] = useState([]);
-  const [editComment, setEditComment] = useState("");
+  const [editComment, setEditComment] = useState();
+
   useEffect(() => {
     api("/comment/get-comment-cars").then((comment) => {
       setComments(comment);
+      console.log(comment);
     });
   }, []);
 
@@ -34,16 +35,23 @@ function CommentsList() {
             </thead>
             <tbody>
               {comments.map((com, id) => (
-                <tr key={id} className="border-b hover:bg-gray-200 text-center">
+                <tr
+                  key={id + 1}
+                  className="border-b hover:bg-gray-200 text-center"
+                >
                   <td className="p-3">{id + 1}</td>
-                  <td className="p-3">{com.id_users}</td>
+                  <td className="p-3">{com.id_user}</td>
                   <td className="p-3">{com.id_car}</td>
                   <td className="p-3">{com.comment}</td>
                   <td className="p-3 flex justify-center gap-3">
                     <Button
                       variant="contained"
                       onClick={() => {
-                        setEditComment(com.comment);
+                        setEditComment({
+                          id: com.id,
+                          comment: com.comment,
+                        });
+                        console.log(editComment);
                       }}
                     >
                       Edit
@@ -58,8 +66,8 @@ function CommentsList() {
                         );
                         const comments = await api("/comment/get-comment-cars");
                         setComments(comments);
-                        setEditComment("");
                         alert(message);
+                        setEditComment(undefined);
                       }}
                     >
                       Delete
@@ -72,6 +80,56 @@ function CommentsList() {
         </div>
         <Footer />
       </div>
+      {editComment && (
+        <form
+          className="absolute bg-white bg-gradient-to-r from-cyan-500 to-blue-500 flex flex-col gap-4 p-8 rounded-3xl shadow-lg shadow-indigo-500/50 top-[5%] left-[35%]  min-w-[512px]"
+          onSubmit={async (e) => {
+            e.preventDefault();
+            const message = await api(
+              `/comment/update-comment/${editComment.id}`,
+              "PUT",
+              editComment
+            );
+            const comment = await api("/comment/get-comment-cars");
+            setComments(comment);
+            setEditComment(undefined);
+            alert(message);
+          }}
+        >
+          <h1 className="text-4xl">Edit Komentar</h1>
+          <label className="flex flex-col gap-1">
+            Isi Komentar
+            <input
+              type="text"
+              value={editComment.comment}
+              onChange={(e) => {
+                e.preventDefault();
+                setEditComment({ ...editComment, comment: e.target.value });
+              }}
+              className="p-0 h-9 px-4 text-sm rounded-lg w-full"
+              autoFocus
+            />
+          </label>
+          <div className="flex gap-5">
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                setEditComment(undefined);
+              }}
+              className="bg-red-600 px-4 py-1 rounded-md text-white"
+            >
+              Batal
+            </button>
+            <button
+              onClick={() => alert("Komentar Berhasil Teredit")}
+              className="bg-green-600 px-4 py-1 rounded-md text-white"
+              type="submit"
+            >
+              Simpan
+            </button>
+          </div>
+        </form>
+      )}
     </div>
   );
 }

@@ -180,7 +180,10 @@ function CarsList() {
           </div>
           <div className="flex gap-5">
             <button
-              onClick={() => setEditProduct(undefined)}
+              onClick={(e) => {
+                e.preventDefault();
+                setEditProduct(undefined);
+              }}
               className="bg-red-600 px-4 py-1 rounded-md text-white"
             >
               Batal
